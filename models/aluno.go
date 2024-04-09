@@ -8,5 +8,3 @@ type Aluno struct {
 	CPF  string `json:"CPF"`
 	RG   string `json:"RG"`
 }
-
-var Alunos []Aluno
