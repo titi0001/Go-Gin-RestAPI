@@ -28,6 +28,13 @@ func CriarAluno(c *gin.Context) {
 			"error": err.Error()})
 		return
 	}
+
+	if err := models.ValidateDadosAlunos(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"erro": err.Error(),
+		})
+		return
+	}
 	database.DB.Create(&aluno)
 	c.JSON(http.StatusOK, aluno)
 }
@@ -65,6 +72,14 @@ func EditaAluno(c *gin.Context) {
 		})
 		return
 	}
+
+	if err := models.ValidateDadosAlunos(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"erro": err.Error(),
+		})
+		return
+	}
+
 	database.DB.Model(&aluno).UpdateColumns(aluno)
 	c.JSON(http.StatusOK, aluno)
 }
