@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -90,7 +91,7 @@ func TestBuscaAlunoPorIDHandler(t *testing.T) {
 
 }
 
- func TestDeletaAlunoHandler(t * testing.T){
+func TestDeletaAlunoHandler(t *testing.T) {
 	database.ConectaDb()
 	CriarAlunoMock()
 
@@ -103,7 +104,35 @@ func TestBuscaAlunoPorIDHandler(t *testing.T) {
 	r.ServeHTTP(response, req)
 
 	assert.Equal(t, http.StatusOK, response.Code)
- }
+}
+
+func TestEditaAlunoHandler(t *testing.T) {
+	database.ConectaDb()
+	CriarAlunoMock()
+	defer DeletaAlunoMock()
+
+	r := SetupRotasTeste()
+	r.PATCH("/alunos/:id", controller.EditaAluno)
+
+	aluno := models.Aluno{
+		Nome: "Aluno teste",
+		CPF:  "00000000000",
+		RG:   "000000000",
+	}
+	valorJson, _ := json.Marshal(aluno)
+
+	pathEditar := "/alunos/" + strconv.Itoa(ID)
+	req, _ := http.NewRequest("PATCH", pathEditar, bytes.NewBuffer(valorJson))
+	response := httptest.NewRecorder()
+	r.ServeHTTP(response, req)
+
+	var alunoMockAtualizado models.Aluno
+	json.Unmarshal(response.Body.Bytes(), &alunoMockAtualizado)
+
+	assert.Equal(t, "00000000000", alunoMockAtualizado.CPF)
+	assert.Equal(t, "000000000", alunoMockAtualizado.RG)
+
+}
 
 func CriarAlunoMock() {
 	aluno := models.Aluno{
