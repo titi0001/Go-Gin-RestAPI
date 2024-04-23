@@ -90,6 +90,21 @@ func TestBuscaAlunoPorIDHandler(t *testing.T) {
 
 }
 
+ func TestDeletaAlunoHandler(t * testing.T){
+	database.ConectaDb()
+	CriarAlunoMock()
+
+	r := SetupRotasTeste()
+	r.DELETE("/alunos/:id", controller.DeletaAluno)
+
+	pathDeBusca := "/alunos/" + strconv.Itoa(ID)
+	req, _ := http.NewRequest("DELETE", pathDeBusca, nil)
+	response := httptest.NewRecorder()
+	r.ServeHTTP(response, req)
+
+	assert.Equal(t, http.StatusOK, response.Code)
+ }
+
 func CriarAlunoMock() {
 	aluno := models.Aluno{
 		Nome: "Nome do Aluno teste",
