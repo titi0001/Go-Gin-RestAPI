@@ -106,3 +106,7 @@ func ExibePaginaIndex(c *gin.Context){
 		"alunos": alunos,
 	})
 }
+
+func RotaNãoEncotrada(c *gin.Context){
+	c.HTML(http.StatusNotFound, "404.html", nil)
+}
