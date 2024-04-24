@@ -17,5 +17,6 @@ func HandleRequest() {
 	r.PATCH("/alunos/:id", controller.EditaAluno)
 	r.GET("/alunos/cpf/:cpf", controller.BuscaAlunoPorCPF)
 	r.GET("/index", controller.ExibePaginaIndex)
+	r.NoRoute(controller.RotaNãoEncotrada)
 	r.Run(":9000")
 }
