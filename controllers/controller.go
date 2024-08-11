@@ -15,6 +15,17 @@ func Saudacao(c *gin.Context) {
 	})
 }
 
+// ExibeAlunos godoc
+//
+//	@Summary		Exibir alunos
+//	@Description	Rota para exibir todos os alunos
+//	@Tags			alunos
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	model.Aluno
+//	@Failure		404	{object}	RotaNãoEncotrada
+//	@Router			/alunos [get]
+
 func ExibeAlunos(c *gin.Context) {
 	var alunos []models.Aluno
 	database.DB.Find(&alunos)
