@@ -22,3 +22,6 @@ go.work
 
 #env
 .env
+
+#postgres-data
+postgres-data
